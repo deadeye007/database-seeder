@@ -1,0 +1,7 @@
+# Dummy Account Creator Settings
+
+[mysql]
+server = localhost
+db = database
+user = username
+passwd = password

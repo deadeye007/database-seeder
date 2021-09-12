@@ -40,4 +40,4 @@ def get_address():
 
         address = f"{hn} {street_name}"
 
-        return(address)
+        return address

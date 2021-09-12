@@ -1,31 +1,40 @@
 # main.py - Main Function
 import customer
+import database
+
 
 def logo():
     print('#'*50)
     print('#\n# Dummy Database Seeder')
-    print('# v 0.0.0\n#')
+    print('# v 0.0.2\n#')
     print('#'*50)
 
 
 def main():
     logo()
-    print("\nThis operation will attempt to create a new dummy entry for a\
-        database.")
+    i = 0
+    number = input("How many users do you want created?\n")
 
-    # Pull two seemingly random names out of a very large text file.
-    name = customer.get_new_name()
-    address = customer.get_address()
+    while i != int(number):
 
-    # Print it out to console.
-    new_name = name.rsplit(" ")
-    first_name = new_name[0]
-    last_name = new_name[1]
-    user_name = f'{name[0].lower()}{new_name[1].lower()}'
-    print(f'First Name: {first_name}')
-    print(f'Last Name: {last_name}')
-    print(f'Username: {user_name}')
-    print(f'Address: {address}')
+        # Pull two seemingly random names out of a very large text file.
+        name = customer.get_new_name()
+        address = customer.get_address()
+
+        # Print it out to console.
+        new_name = name.rsplit(" ")
+        first_name = new_name[0]
+        last_name = new_name[1]
+        user_name = f'{name[0].lower()}{new_name[1].lower()}'
+        print(f'First Name: {first_name}')
+        print(f'Last Name: {last_name}')
+        print(f'Username: {user_name}')
+        print(f'Address: {address}')
+
+        print(f'[i] Adding customer to database...')
+        result = database.add_customer(first_name, last_name, address)
+        print(result)
+        i = i + 1
 
 
 main()
