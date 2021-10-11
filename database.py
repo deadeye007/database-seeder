@@ -27,9 +27,9 @@ def create_db():
             print(" [E] Something went wrong!")
 
         except mysql.connector.errors.ProgrammingError as e:
-            if e == 42000:
-                print(f"Error: {e}")
-                print(" [E] You need to do better, programmatically in SQL.")
+            if "42000" in str(e):
+                print(f" [E] Check your SQL syntax and try again.")
+                exit()
         except mysql.connector.errors.DatabaseError:
             pass
 
@@ -98,9 +98,6 @@ def create_table():
             if "42000" in str(e):
                 print(f" [E] Check your SQL syntax and try again.")
                 exit()
-            else:
-                print(f" [E] Something went wrong!\nError Number: {e}\n\n")
-                exit()
 
 
 def add_customer(fn, ln, addy):
@@ -131,14 +128,20 @@ def add_customer(fn, ln, addy):
 
         record_data = (fn, ln, addy, 'Anytown', 'AW', 'USA')
 
-        cursor.execute(add_record, record_data)
-        cnx.commit()
+        try:
+            cursor.execute(add_record, record_data)
+            cnx.commit()
 
-        r_id = cursor.lastrowid
+            r_id = cursor.lastrowid
 
-        result = f" [i] Customer added to database with id {str(r_id)}."
+            result = f" [i] Customer added to database with id {str(r_id)}."
 
-        return result
+            return result
+
+        except mysql.connector.errors.ProgrammingError as e:
+            if "42000" in str(e):
+                print(f" [E] Check your SQL syntax and try again.")
+                exit()
 
 
 def find_customer():
