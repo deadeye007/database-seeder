@@ -8,18 +8,17 @@ def logo():
     print('#\n# Dummy Database Seeder')
     print('# v 0.0.3\n#')
     print('#'*50)
+    print('Script will attempt to create and fill database with random info.\n')
 
 
 def main():
     logo()
 
-    input(" [i] The script will automatically attempt to create the database.")
+    # Create database and tables.
     database.create_db()
-
-    print(" [i] The script will now attempt to create the table.")
     database.create_table()
 
-    # Create customers
+    # Create customers.
     users.create()
 
 
