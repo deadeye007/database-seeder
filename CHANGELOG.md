@@ -1,5 +1,9 @@
 #CHANGELOG
 
+## Version 0.0.3
+### Added
+ - Functions to create the tables, if they don't exist.
+
 ## Version 0.0.2
 ### Added
  - MySQL connection to add new customer accounts to a database.

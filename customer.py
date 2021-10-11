@@ -19,7 +19,7 @@ def get_new_name():
         last_name = str.rstrip(lines[ln])
 
         # Concatenate names
-        name = f'{first_name} {last_name}'
+        name = f"{first_name} {last_name}"
 
         return str(name)
 
@@ -36,7 +36,7 @@ def get_address():
         sn = random.randrange(1, lines_end, 1)
 
         # Strip Variables for Readability
-        street_name = str.rstrip(lines[hn])
+        street_name = str.rstrip(lines[sn])
 
         address = f"{hn} {street_name}"
 
