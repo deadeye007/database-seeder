@@ -6,9 +6,9 @@ import users
 def logo():
     print('#'*50)
     print('#\n# Dummy Database Seeder')
-    print('# v 0.0.3\n#')
+    print('# v 0.0.4\n#')
     print('#'*50)
-    print('Script will attempt to create and fill database with random info.\n')
+    print()
 
 
 def main():
@@ -20,6 +20,11 @@ def main():
 
     # Create customers.
     users.create()
+
+    database.find_random_customer()
+    last = database.last_customer()
+
+    print(f"There are currently {last} customers in the database.")
 
 
 main()

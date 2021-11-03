@@ -1,3 +1,5 @@
+import random
+
 import config
 import mysql.connector
 
@@ -14,7 +16,7 @@ except mysql.connector.errors.ProgrammingError as e:
                                       password=config.password()
                                       )
 
-cursor = cnx.cursor()
+cursor = cnx.cursor(buffered=True)
 
 
 def create_db():
@@ -112,6 +114,7 @@ def add_customer(first_name, last_name, address):
     try:
         cursor.execute(use_database)
         cursor.execute(add_record, record_data)
+        cnx.commit()
 
         r_id = cursor.lastrowid
 
@@ -125,6 +128,75 @@ def add_customer(first_name, last_name, address):
             exit()
 
 
-def find_customer():
-    # TODO: Add the ability to find customers
-    print(" [i] Attempting to find customer.")
+def find_customer(c_id):
+    print(f" [i] Attempting to find customer #{c_id}.")
+
+    # Use the proper database.
+    use_database = f"USE `{config.name()}`"
+
+    find_record = f"SELECT * from `customers` WHERE `customer_id` = {c_id}"
+
+    cursor.execute(use_database)
+    cursor.execute(find_record)
+
+    rand_record = cursor.fetchall()
+
+    for row in rand_record:
+        # Customer ID
+        record_id = row[0]
+
+        # First Name
+        record_fn = row[1]
+
+        # Last Name
+        record_ln = row[2]
+
+        # Address
+        record_ad = row[3]
+
+        # City
+        record_ct = row[4]
+
+        # State
+        record_st = row[5]
+
+        # Country
+        record_cn = row[6]
+
+        # Phone Number
+        record_pn = row[7]
+
+        print(f"""     ***** Customer Details *****
+     Customer ID: {record_id}
+     First Name: {record_fn}
+     Last Name: {record_ln}
+     Address: {record_ad}
+     City: {record_ct}
+     State: {record_st}
+     Country: {record_cn}
+     Phone Number: {record_pn}
+
+""")
+
+
+def find_random_customer():
+    last_id = last_customer()
+    r_id = random.randint(0, last_id)
+    find_customer(r_id)
+
+
+def last_customer():
+    # Use the proper database.
+    use_database = f"USE `{config.name()}`"
+
+    get_last_customer = f"SELECT COUNT(*) FROM `customers`"
+
+    cursor.execute(use_database)
+    cursor.execute(get_last_customer)
+
+    customer_count = cursor.fetchall()
+
+    for row in customer_count:
+        last_id = row[0]
+
+    return last_id
