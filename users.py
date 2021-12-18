@@ -25,6 +25,6 @@ def create():
         print(f"Address: {address}")
 
         print(f"     [i] Attempting to add customer to the database.")
-        result = database.add_customer(first_name, last_name, address)
+        result = database.add_user(first_name, last_name, address)
         print(result)
         i = i + 1

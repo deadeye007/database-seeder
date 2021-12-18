@@ -62,7 +62,7 @@ def create_table():
                 "PRIMARY KEY (item_sku))")
 
     employee_tab = (f"CREATE TABLE IF NOT EXISTS `employees`"
-                    "(employee_id MEDIUMINT NOT NULL,"
+                    "(employee_id MEDIUMINT AUTO_INCREMENT,"
                     "first_name VARCHAR(20) NOT NULL,"
                     "last_name VARCHAR(20) NOT NULL,"
                     "street_address VARCHAR(100) NOT NULL,"
@@ -72,6 +72,14 @@ def create_table():
                     "phone_number VARCHAR(20) NOT NULL,"
                     "work_region VARCHAR(20) NOT NULL,"
                     "PRIMARY KEY (employee_id))")
+
+    item_tab = (f"CREATE TABLE IF NOT EXISTS `item`"
+                "(item_sku MEDIUMINT NOT NULL,"
+                "name VARCHAR(20) NOT NULL,"
+                "description VARCHAR(100) NOT NULL,"
+                "price DECIMAL(5,2) UNSIGNED NOT NULL,"
+                "quantity SMALLINT UNSIGNED,"
+                "PRIMARY KEY (item_sku))")
 
     input(" [i] The script will now attempt to create the tables.")
 
@@ -89,25 +97,40 @@ def create_table():
         cursor.execute(employee_tab)
         print("     [!] Created employee table.")
 
+        print(" [i] Creating item table.")
+        cursor.execute(item_tab)
+        print("     [!] Created item table.")
+
     except mysql.connector.errors.ProgrammingError as e:
         if "1064" in str(e):
             print(f"\n [E] Check your SQL syntax and try again.")
             exit()
 
 
-def add_customer(first_name, last_name, address):
+def add_user(employee, first_name, last_name, address):
     # Use the proper database.
     use_database = f"USE `{config.name()}`"
 
-    # Define customers in SQL Syntax.
-    add_record = ("INSERT INTO `customers` "
-                  "(first_name,"
-                  "last_name,"
-                  "street_address,"
-                  "city,"
-                  "state,"
-                  "country)"
-                  "VALUES (%s, %s, %s, %s, %s, %s)")
+    if employee == 1:
+        # Define customers in SQL Syntax.
+        add_record = ("INSERT INTO `customers` "
+                      "(first_name,"
+                      "last_name,"
+                      "street_address,"
+                      "city,"
+                      "state,"
+                      "country)"
+                      "VALUES (%s, %s, %s, %s, %s, %s)")
+
+    else:
+        add_record = ("INSERT INTO `employees` "
+                      "(first_name,"
+                      "last_name,"
+                      "street_address,"
+                      "city,"
+                      "state,"
+                      "country)"
+                      "VALUES (%s, %s, %s, %s, %s, %s)")
 
     record_data = (first_name, last_name, address, 'Anytown', 'AW', 'USA')
 
@@ -128,20 +151,30 @@ def add_customer(first_name, last_name, address):
             exit()
 
 
-def find_customer(c_id):
-    print(f" [i] Attempting to find customer #{c_id}.")
+def find_user(employee, query):
+    print(f" [i] Attempting to find customer #{query}.")
 
     # Use the proper database.
     use_database = f"USE `{config.name()}`"
 
-    find_record = f"SELECT * from `customers` WHERE `customer_id` = {c_id}"
+    if employee == 1:
+        find_record = f"SELECT * from `employees` \
+                  WHERE `employee_id` = '{query}' \
+                  OR `first_name` = '{query}' \
+                  OR `last_name` = '{query}'"
+
+    else:
+        find_record = f"SELECT * from `customers` \
+                  WHERE `customer_id` = '{query}' \
+                  OR `first_name` = '{query}' \
+                  OR `last_name` = '{query}'"
 
     cursor.execute(use_database)
     cursor.execute(find_record)
 
-    rand_record = cursor.fetchall()
+    record = cursor.fetchall()
 
-    for row in rand_record:
+    for row in record:
         # Customer ID
         record_id = row[0]
 
@@ -167,7 +200,7 @@ def find_customer(c_id):
         record_pn = row[7]
 
         print(f"""     ***** Customer Details *****
-     Customer ID: {record_id}
+     ID: {record_id}
      First Name: {record_fn}
      Last Name: {record_ln}
      Address: {record_ad}
@@ -182,7 +215,7 @@ def find_customer(c_id):
 def find_random_customer():
     last_id = last_customer()
     r_id = random.randint(0, last_id)
-    find_customer(r_id)
+    find_user(r_id)
 
 
 def last_customer():
@@ -200,3 +233,5 @@ def last_customer():
         last_id = row[0]
 
     return last_id
+
+# TODO: Add items/names/etc to the database so as to seed from the database.

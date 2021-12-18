@@ -1,7 +1,7 @@
 # main.py - Main Function
 import argparse
 import sys
-# import database
+import database
 # import users
 
 
@@ -51,21 +51,38 @@ class MainOptions(object):
 
         if args.customer:
             print("Searching for customer: %s" % args.customer)
+            employee = 0
+            database.find_user(employee, args.customer)
 
         if args.employee:
             print("Searching for employee: %s" % args.employee)
+            employee = 1
+            database.find_user(employee, args.employee)
 
         if args.item:
             print("Searching for item: %s" % args.item)
 
     def add(self):
+        # TODO: Flesh out the different variables
         parser = argparse.ArgumentParser(
             description='Add to the database.')
         parser.add_argument('--customer')
         parser.add_argument('--employee')
         parser.add_argument('--item')
         args = parser.parse_args(sys.argv[2:4])
-        print("This will add something.")
+
+        if args.customer:
+            print("Adding customer: %s" % args.customer)
+            employee = 0
+            database.find_user(employee, args.customer)
+
+        if args.employee:
+            print("Adding employee: %s" % args.employee)
+            employee = 1
+            database.find_user(employee, args.employee)
+
+        if args.item:
+            print("Adding item: %s" % args.item)
 
     def delete(self):
         parser = argparse.ArgumentParser(
@@ -75,6 +92,19 @@ class MainOptions(object):
         parser.add_argument('--item')
         args = parser.parse_args(sys.argv[2:4])
         print("This will delete something.")
+
+        if args.customer:
+            print("Deleting customer: %s" % args.customer)
+            employee = 0
+            database.find_user(employee, args.customer)
+
+        if args.employee:
+            print("Deleting employee: %s" % args.employee)
+            employee = 1
+            database.find_user(employee, args.employee)
+
+        if args.item:
+            print("Deleting item: %s" % args.item)
 
     # TODO: Flesh out the employee aspects.
     # TODO: Add ability to seed random items.
