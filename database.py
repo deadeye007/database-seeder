@@ -111,7 +111,7 @@ def add_user(employee, first_name, last_name, address):
     # Use the proper database.
     use_database = f"USE `{config.name()}`"
 
-    if employee == 1:
+    if employee:
         # Define customers in SQL Syntax.
         add_record = ("INSERT INTO `customers` "
                       "(first_name,"
@@ -157,7 +157,7 @@ def find_user(employee, query):
     # Use the proper database.
     use_database = f"USE `{config.name()}`"
 
-    if employee == 1:
+    if employee:
         find_record = f"SELECT * from `employees` \
                   WHERE `employee_id` = '{query}' \
                   OR `first_name` = '{query}' \

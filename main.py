@@ -51,12 +51,12 @@ class MainOptions(object):
 
         if args.customer:
             print("Searching for customer: %s" % args.customer)
-            employee = 0
+            employee = False
             database.find_user(employee, args.customer)
 
         if args.employee:
             print("Searching for employee: %s" % args.employee)
-            employee = 1
+            employee = True
             database.find_user(employee, args.employee)
 
         if args.item:
@@ -73,12 +73,12 @@ class MainOptions(object):
 
         if args.customer:
             print("Adding customer: %s" % args.customer)
-            employee = 0
+            employee = False
             database.find_user(employee, args.customer)
 
         if args.employee:
             print("Adding employee: %s" % args.employee)
-            employee = 1
+            employee = True
             database.find_user(employee, args.employee)
 
         if args.item:
@@ -95,12 +95,12 @@ class MainOptions(object):
 
         if args.customer:
             print("Deleting customer: %s" % args.customer)
-            employee = 0
+            employee = False
             database.find_user(employee, args.customer)
 
         if args.employee:
             print("Deleting employee: %s" % args.employee)
-            employee = 1
+            employee = True
             database.find_user(employee, args.employee)
 
         if args.item:
